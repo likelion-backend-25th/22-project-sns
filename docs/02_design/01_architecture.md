@@ -18,7 +18,8 @@ graph TD
     CloudFront["AWS CloudFront (CDN)"]
     S3_Static["AWS S3 정적 웹 호스팅"]
     S3_Media["AWS S3 미디어 버킷 (/uploads)"]
-    EC2["AWS EC2 (Ubuntu 24.04)"]
+    EC2["AWS EC2 (Amazon Linux 2023)"]
+    Docker_Nginx["Nginx 리버스 프록시 (컨테이너)"]
     Docker_App["Spring Boot API 서버 (컨테이너)"]
     Docker_DB["MySQL 9.x 데이터베이스 (컨테이너)"]
     PG_Gateway["결제/구독 게이트웨이 (PG)"]
@@ -29,15 +30,16 @@ graph TD
     CloudFront -->|미디어 파일 페치| S3_Media
 
     Client -->|"REST API 요청 (JSON / JWT)"| EC2
-    EC2 --> Docker_App
+    EC2 --> Docker_Nginx
+    Docker_Nginx -->|리버스 프록시 포워딩| Docker_App
     Docker_App -->|MyBatis 쿼리| Docker_DB
     Docker_App -->|이미지 파일 직접 업로드| S3_Media
 
     Client -->|결제창 SDK 호출| PG_Gateway
     PG_Gateway -->|결제 결과 응답| Client
-    Client -->|결제 사후검증 요청| Docker_App
+    Client -->|결제 사후검증 요청| Docker_Nginx
     Docker_App -->|REST API 검증 및 빌링키 요청| PG_Gateway
-    PG_Gateway -->|비동기 웹훅 Webhook| Docker_App
+    PG_Gateway -->|"비동기 웹훅 (Webhook)"| Docker_Nginx
 ```
 
 ---
@@ -52,9 +54,9 @@ graph TD
 
 ### 1.2.2 백엔드 및 데이터베이스 배포 (AWS EC2 + Docker Compose)
 - 백엔드 컨테이너 환경:
-  - AWS EC2 t3.medium 인스턴스에 Docker 및 Docker Compose 구성.
-  - Spring Boot API 서버 애플리케이션 컨테이너(8080 포트)와 MySQL 9.x 데이터베이스 컨테이너(3306 포트) 내부 도커 네트워크 격리 연동.
-  - 호스트 80/443 포트로 유입되는 API 트래픽을 컨테이너 8080 포트로 포워딩.
+  - AWS EC2 t3.small 인스턴스에 Docker 및 Docker Compose 구성.
+  - Nginx 리버스 프록시 컨테이너(80/443 포트), Spring Boot API 서버 애플리케이션 컨테이너(8080 포트), MySQL 9.x 데이터베이스 컨테이너(3306 포트)를 단일 도커 네트워크(Bridge)로 격리 연동.
+  - 호스트 80/443 포트로 유입되는 외부 트래픽을 Nginx 컨테이너가 1차 수신하여 SSL 인증서 처리 및 Spring Boot API 컨테이너(8080 포트)로 리버스 프록시(Reverse Proxy) 포워딩.
 
 ### 1.2.3 미디어 스토리지 및 파일 업로드 (AWS S3)
 - 이미지 업로드 파이프라인:
