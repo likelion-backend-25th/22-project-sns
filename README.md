@@ -17,7 +17,7 @@ React 프론트엔드와 Spring Boot 4 REST API, MyBatis 3.x, MySQL 9.x를 기�
 - 백엔드: Java 25, Spring Boot 4.x, Spring Security, JWT (Access/Refresh RTR)
 - 데이터 접근 계층: MyBatis 3.x
 - 데이터베이스: MySQL 9.x
-- 인프라 및 스토리지: AWS EC2 (Ubuntu), AWS S3, AWS CloudFront, Docker Compose
+- 인프라 및 스토리지: AWS EC2 (Amazon Linux 2023), AWS S3, AWS CloudFront, Docker Compose
 - 외부 연동: PortOne (결제 및 빌링키 정기 구독)
 
 ## 3. 상세 가이드 및 필수 산출물 안내
