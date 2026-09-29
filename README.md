@@ -5,7 +5,7 @@ React 프론트엔드와 Spring Boot 4 REST API, MyBatis 3.x, MySQL 9.x를 기�
 
 ## 1. 프로젝트 개요
 - 과정명: 멋쟁이사자처럼 백엔드 부트캠프 25기
-- 프로젝트 유형: SNS 솔루션 서비스 구축 및 배포 (2주간 진행)
+- 프로젝트 유형: 응용 프로젝트 (SNS 솔루션 서비스 구축 및 배포)
 - 핵심 목표:
   - React SPA와 Spring Boot 간의 비동기 REST API 연동
   - 회원 관리, 피드 업로드, 해시태그 검색, 댓글/좋아요/북마크 상호작용 구현
@@ -14,9 +14,9 @@ React 프론트엔드와 Spring Boot 4 REST API, MyBatis 3.x, MySQL 9.x를 기�
 
 ## 2. 기술 스택
 - 프론트엔드: React SPA, Vite, Axios
-- 백엔드: Java 17, Spring Boot 4.x, Spring Security, JWT (Access/Refresh RTR)
+- 백엔드: Java 25, Spring Boot 4.x, Spring Security, JWT (Access/Refresh RTR)
 - 데이터 접근 계층: MyBatis 3.x
-- 데이터베이스: MySQL 9.x (InnoDB, utf8mb4)
+- 데이터베이스: MySQL 9.x
 - 인프라 및 스토리지: AWS EC2 (Ubuntu), AWS S3, AWS CloudFront, Docker Compose
 - 외부 연동: PortOne (결제 및 빌링키 정기 구독)
 
