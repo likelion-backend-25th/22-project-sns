@@ -1,6 +1,14 @@
-# 프로젝트 산출물
+# 프로젝트 진행 가이드
 
-## 목차
+## 프로젝트 실습 가이드
+- [1장 팀 프로젝트 시작](01.start.md): 팀 레포지토리 생성, Spring Boot 4 프로젝트 초기화, Git 푸시 및 clone
+- [2장 이슈 관리](02.issue.md): 마일스톤, 레이블, 이슈 템플릿 작성 및 이슈 생성 실습
+- [3장 깃허브 프로젝트](03.project.md): 프로젝트 보드 생성, 백로그 및 칸반 보드 뷰, 필드 관리
+- [4장 심화 자율 과제](04.challenge.md): 프론트엔드 배포 파이프라인 구축, 서드파티 결제(PG) 연동 및 API 서버 HTTPS 적용
+
+---
+
+## 필수 산출물 목차
 - [1. 필수 산출물 정의 및 작성 기준](#1-필수-산출물-정의-및-작성-기준)
   - [1.1 프로젝트 기획서 (Project Proposal)](#11-프로젝트-기획서-project-proposal)
   - [1.2 요구사항 기능 명세서 (PRD - Product Requirement Document)](#12-요구사항-기능-명세서-prd---product-requirement-document)
@@ -29,7 +37,7 @@
 - 주요 기능 요구사항 요약
 - 팀 구성 및 도메인별 수직 슬라이스 역할 분담표
 
-- 💻 프로젝트 기획서 샘플: [docs/01_planning/01_proposal.md](docs/01_planning/01_proposal.md)
+- 💻 프로젝트 기획서 샘플: [docs/01_planning/01_proposal.md](../docs/01_planning/01_proposal.md)
 
 ---
 
@@ -49,7 +57,7 @@
 - 우선순위: 1순위(필수 구현), 2순위(주요 권장), 3순위(추가 선택) 구분
 - 상세 내용: 기능의 세부 동작 조건 및 입력 데이터 검증 규칙 명시
 
-- 💻 요구사항 기능 명세서 샘플: [docs/01_planning/02_prd.md](docs/01_planning/02_prd.md)
+- 💻 요구사항 기능 명세서 샘플: [docs/01_planning/02_prd.md](../docs/01_planning/02_prd.md)
 
 ---
 
@@ -68,7 +76,7 @@ React SPA 클라이언트부터 Spring Boot REST API 백엔드, MySQL 데이터�
 - 데이터베이스 영역: MySQL 9.x 컨테이너 (3306 포트), 볼륨 마운트
 - 외부 연동 및 스토리지 영역: AWS S3 미디어 버킷 (/uploads), 결제/구독 게이트웨이(PG)
 
-- 💻 시스템 아키텍처 구성도 샘플: [docs/02_design/01_architecture.md](docs/02_design/01_architecture.md)
+- 💻 시스템 아키텍처 구성도 샘플: [docs/02_design/01_architecture.md](../docs/02_design/01_architecture.md)
 
 ---
 
@@ -105,7 +113,7 @@ React SPA 클라이언트부터 Spring Boot REST API 백엔드, MySQL 데이터�
   - Circle (`o`): 0개일 수 있음 (Optional 선택 조건, 없어도 됨)
   - Crow Foot (`}` 또는 `{`): 다수 (Many, N개)를 의미
 
-- 💻 데이터베이스 ERD 샘플: [docs/02_design/02_erd.md](docs/02_design/02_erd.md)
+- 💻 데이터베이스 ERD 샘플: [docs/02_design/02_erd.md](../docs/02_design/02_erd.md)
 
 ---
 
@@ -128,7 +136,7 @@ React SPA 클라이언트부터 Spring Boot REST API 백엔드, MySQL 데이터�
   - 복잡한 픽셀 단위 작업 대신 사각형 박스와 텍스트를 활용한 초간단 와이어프레임 또는 종이 손스케치를 캡처하여 활용
   - 이미지 파일은 `docs/images/` 폴더에 저장하고 마크다운에서 상대 경로로 링크하여 관리
 
-- 💻 화면 설계서 샘플: [docs/02_design/03_ui_wireframe.md](docs/02_design/03_ui_wireframe.md)
+- 💻 화면 설계서 샘플: [docs/02_design/03_ui_wireframe.md](../docs/02_design/03_ui_wireframe.md)
 
 ---
 
@@ -142,14 +150,14 @@ React SPA 클라이언트부터 Spring Boot REST API 백엔드, MySQL 데이터�
 - 데이터 규격 통일: 공통 성공 응답 포맷과 에러 응답 포맷을 사전에 정의하여 프론트엔드 예외 처리 공통화
 
 ### 1.6.3 필수 포함 항목
-- 공통 응답 규격: 성공 포맷 (DTO 단건 객체 또는 List 컬렉션 직접 반환), 실패/에러 포맷 (ApiErrorResponse - `code`, `message`, `status`, `timestamp`, `errors`)
+- 공통 응답 규격: 성공 포맷 (`status`, `data`), 실패/에러 포맷 (`status`, `code`, `message`)
 - 인증 API: 로그인 (`/api/v1/auth/login`), 액세스 토큰 갱신 RTR (`/api/v1/auth/refresh`)
 - 회원 API: 내 프로필 조회 (`/api/v1/members/me`)
 - 피드 API: 피드 목록/검색 (`GET /api/v1/posts`), 피드 등록 (`POST /api/v1/posts`), 단건 상세, 수정, 삭제
 - 인터랙션 API: 댓글 등록/삭제, 좋아요 토글, 북마크 토글
 - 결제/구독 API: 결제 사전 검증 (`/api/v1/payments/prepare`), 사후 검증 (`/api/v1/payments/complete`), VIP 정기 구독 (`/api/v1/subscriptions`), 결제 웹훅
 
-- 💻 REST API 명세서 샘플: [docs/02_design/04_api_specification.md](docs/02_design/04_api_specification.md)
+- 💻 REST API 명세서 샘플: [docs/02_design/04_api_specification.md](../docs/02_design/04_api_specification.md)
 
 ---
 
@@ -185,4 +193,4 @@ React SPA 클라이언트부터 Spring Boot REST API 백엔드, MySQL 데이터�
 - 버그 해결을 통해 새로 배우게 된 원리나 향후 재발 방지를 위한 시사점 작성.
 ````
 
-- 💻 트러블슈팅 작성 샘플: [docs/03_reports/troubleshooting.md](docs/03_reports/troubleshooting.md)
+- 💻 트러블슈팅 작성 샘플: [docs/03_reports/troubleshooting.md](../docs/03_reports/troubleshooting.md)
